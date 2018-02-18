@@ -25,3 +25,14 @@ function slides_save_post_admin($post_id, $post, $update){
 
   update_post_meta($post_id, 'slides_data', $slides_data);
 }
+
+function logos_save_post_admin($post_id, $post, $update){
+  if(!$update){
+    return;
+  }
+
+  $logos_data = array();
+  $logos_data['logoUrl'] = sanitize_text_field($_POST['logo_inputURL']);
+
+  update_post_meta($post_id, 'logos_data', $logos_data);
+}

@@ -1,9 +1,9 @@
 <?php get_header(); ?>
 <div class="site-main">
 <?php if(have_posts()):?>
-  <header class="page-header">
+  <header class="page-headline">
   <?php the_archive_title('<h1 class="page-title">', '</h1>');
-        the_archive_description('<div class="taxonomy-description">','</div>');
+
   ?>
   </header>
   <?php
@@ -15,7 +15,9 @@
   else:
     echo '<p>No content found</p>';
 
-endif;
-
+endif;?>
+</div><!--main-->
+<?php
+get_sidebar();
 get_footer();
 ?>

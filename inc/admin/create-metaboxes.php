@@ -20,3 +20,15 @@ function slides_create_metaboxes(){
     'high' //$ptiority
   );
 }
+
+
+function logos_create_metaboxes(){
+  add_meta_box(
+    'elt_logos_options_mb', //$id
+    __('Logo Options', 'electrontwo'), //$title
+    'elt_logos_options_mb', //$callback function
+    'logos', //post-type
+    'normal', //$contex
+    'high' //$ptiority
+  );
+}

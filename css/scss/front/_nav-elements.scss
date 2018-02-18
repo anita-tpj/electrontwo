@@ -1,0 +1,465 @@
+
+/*----------- Hamburger -----------*/
+.hamburger {
+  padding: $hamburger-padding-y $hamburger-padding-x;
+  display: inline-block;
+  cursor: pointer;
+
+  transition-property: opacity, filter;
+  transition-duration: $hamburger-hover-transition-duration;
+  transition-timing-function: $hamburger-hover-transition-timing-function;
+
+  // Normalize (<button>)
+  font: inherit;
+  color: inherit;
+  text-transform: none;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  overflow: visible;
+
+  &:hover {
+    @if $hamburger-hover-use-filter == true {
+      filter: $hamburger-hover-filter;
+    }
+    @else {
+      opacity: $hamburger-hover-opacity;
+    }
+  }
+
+  &.is-active {
+    .hamburger-inner {
+      transform: rotate(45deg);
+      transition-delay: 0.14s;
+      transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+      &::before {
+        top: 0;
+        opacity: 0;
+        transition: top 0.1s ease,
+                    opacity 0.1s 0.14s ease;
+      }
+
+      &::after {
+        bottom: 0;
+        transform: rotate(-90deg);
+        transition: bottom 0.1s ease,
+                    transform 0.1s 0.14s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+    }
+  }
+}
+
+.hamburger-box {
+  width: $hamburger-layer-width;
+  height: $hamburger-layer-height * 3 + $hamburger-layer-spacing * 2;
+  display: inline-block;
+  position: relative;
+}
+
+.hamburger-inner {
+  display: block;
+  top: 50%;
+  margin-top: $hamburger-layer-height / -2;
+  transition-duration: 0.1s;
+  transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+
+  &,
+  &::before,
+  &::after {
+    width: $hamburger-layer-width;
+    height: $hamburger-layer-height;
+    background-color: $hamburger-layer-color;
+    border-radius: $hamburger-layer-border-radius;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+  }
+
+  &::before {
+    top: ($hamburger-layer-spacing + $hamburger-layer-height) * -1;
+    transition: top 0.1s 0.14s ease,
+                opacity 0.1s ease;
+  }
+
+  &::after {
+    bottom: ($hamburger-layer-spacing + $hamburger-layer-height) * -1;
+    transition: bottom 0.1s 0.14s ease,
+                transform 0.1s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+}
+
+
+//Collapse
+.hamburger--collapse .hamburger-inner{
+  top: auto;
+  bottom: 0;
+  transition-duration: 0.13s;
+  transition-delay: 0.13s;
+  transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+.hamburger--collapse .hamburger-inner::after{
+  top: -20px;
+  transition: top 0.2s 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1), opacity 0.1s linear;
+}
+.hamburger--collapse .hamburger-inner::before{
+  transition: top 0.12s 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1), transform 0.13s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+.hamburger--collapse.is-active .hamburger-inner{
+transform: translate3d(0, -10px, 0) rotate(-45deg);
+transition-delay: 0.22s;
+transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.hamburger--collapse.is-active .hamburger-inner::after{
+  top: 0;
+  /*opacity: 0;*/
+  transition: top 0.2s cubic-bezier(0.33333, 0, 0.66667, 0.33333), opacity 0.1s 0.22s linear;
+}
+.hamburger--collapse.is-active .hamburger-inner::before{
+  top: 0;
+  transform: rotate(-90deg);
+  transition: top 0.1s 0.16s cubic-bezier(0.33333, 0, 0.66667, 0.33333), transform 0.13s 0.25s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/*----------- Mobile-Menu-Button -----------*/
+#inv-nav-main-btn {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	display: block;
+	border: 0;
+	background-color: $primary-color;
+	color: #FFF;
+	line-height: 45px;
+	font-size: 22px;
+	padding: 10px;
+	margin: 0;
+	transition-property: right;
+	transition-duration: 0.15s;
+	transition-timing-function: linear;
+  transition-property: line-height;
+  transition-duration: .5s;
+  transition-timing-function: ease;
+	z-index: $menu-z-index;
+
+
+	&:focus {
+		outline: 0;
+		outline: none;
+		-webkit-appearance: none;
+	}
+
+	@media screen and (min-width: $screen-sm-min) {
+		display: none;
+	}
+
+	.hamburger-inner ,
+	.hamburger-inner::before ,
+	.hamburger-inner::after {
+		background-color: $hamburger-text-color;
+	}
+
+	&.is-active {
+		right: $burger-menu-width;
+		background-color: $hamburger-background-color;
+
+		span.text {
+			display: none;
+		}
+	}
+
+	&.left {
+		left: 0px;
+		right: auto;
+		transition-property: left;
+		&.is-active {
+			left: $burger-menu-width;
+			right: auto;
+		}
+	}
+
+}
+
+/*----------- Mobile -----------*/
+ul#inv-menu {
+	position: fixed;
+	right: -$burger-menu-width;
+	top: 0px;
+	left: auto;
+	bottom: 0px;
+	background: $burger-menu-item-background-color;
+	color: $burger-menu-item-color;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	width: $burger-menu-width;
+	text-align: left;
+	overflow: auto;
+	transition-property: right;
+	transition-duration: $hamburger-hover-transition-duration;
+	transition-timing-function: $hamburger-hover-transition-timing-function;
+	z-index: $menu-z-index;
+
+	&.menu-show {
+		right: 0px;
+	}
+
+	&.left {
+		right: 0;
+		left: -$burger-menu-width;
+		transition-property: left;
+		&.menu-show {
+			left: 0px;
+		}
+	}
+
+	li {
+		list-style: none;
+		display: block;
+		width: 100%;
+
+		a {
+			display: block;
+			width: auto;
+			color: $burger-menu-item-color;
+			background-color: $burger-menu-item-background-color;
+			font-size: $burger-menu-item-font-size;
+			line-height: $burger-menu-item-line-height;
+			padding: 0 10px;
+			border: 0;
+			text-decoration: none;
+      border-bottom: lighten($burger-menu-background-color, 70%) 2px solid;
+			&:hover ,
+			&:focus ,
+			&:active {
+				background: $burger-menu-item-hover-background-color;
+				color: $burger-menu-item-hover-color;
+				text-decoration: none;
+			}
+
+		}
+
+		ul {
+
+			position: relative;
+			top: auto;
+			left: auto;
+			right: auto;
+			bottom: auto;
+			width: auto;
+			padding: 0;
+			margin: 0;
+
+			li {
+
+				a {
+					display: block;
+					width: auto;
+					color: $burger-menu-item-color;
+					background-color: $burger-submenu-item-background-color;
+					color: $burger-submenu-item-hover-color;
+					font-size: $burger-submenu-item-font-size;
+					line-height: $burger-submenu-item-line-height;
+					padding: 0 10px 0 20px;
+					&:hover ,
+					&:focus ,
+					&:active {
+						color: $burger-submenu-item-hover-color;
+						background-color: $burger-submenu-item-hover-background-color;
+						text-decoration: none;
+					}
+
+					img {
+						display: none;
+					}
+
+					.nav-description {
+						display: none;
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+}
+/*----------- Desktop -----------*/
+@media screen and (min-width: $screen-sm-min) {
+
+	ul#inv-menu {
+		display: inline-block;
+		float: right;
+		text-align: right;
+		position: relative;
+		top: auto;
+		left: auto;
+		right: auto;
+		bottom: auto;
+		background-color: $menu-background-color;
+
+    &.header-affix {
+
+  		position: fixed;
+  		top: 0px;
+  		left: 0px;
+  		right: 0px;
+  		bottom: auto;
+  		height: $header-affix-height;
+  		border-bottom: 0;
+  		/*box-shadow: 0px 1px 1px #AAA;*/
+    }
+		&.left {
+			left: auto;
+			right: auto;
+		}
+		background: none;
+		width: auto;
+		overflow: visible;
+
+		li {
+			display: inline-block;
+			width: auto;
+			border: 0;
+
+			a {
+				margin: 0;
+				padding: 0 20px;
+				line-height: $menu-item-line-height;
+				font-size: $menu-item-font-size;
+				text-align: center;
+				color: $menu-item-color;
+				background-color: $menu-item-background-color;
+				border: 0;
+			}
+
+			ul {
+				display: none;
+				opacity: 0.9;
+				filter: opacity(100%);
+				transition-property: opacity, filter;
+				transition-duration: $hamburger-hover-transition-duration;
+				transition-timing-function: $hamburger-hover-transition-timing-function;
+
+			}
+
+			&:hover ,
+			&.menu-show {
+
+				color: $menu-item-hover-color;
+				background-color: $menu-item-hover-background-color;
+
+				a {
+					color: $menu-item-hover-color;
+					background-color: $menu-item-hover-background-color;
+				}
+
+				ul {
+					display: block;
+					background-color: $menu-item-hover-background-color;
+					position: absolute;
+					top: $menu-item-line-height;
+					width: $header-submenu-width;
+					padding: 0;
+					margin: 0;
+					text-align: left;
+					/*
+					opacity: 1;
+					filter: opacity(100%);
+					*/
+
+					li {
+						text-align: left;
+						width: $header-submenu-width;
+						padding: 0;
+						margin: 0;
+						display: block;
+						float: left;
+						position: relative;
+						line-height: 1em;
+
+						a {
+							font-size: 14px;
+							display: block;
+							width: auto;
+							padding: 10px;
+							margin: 0;
+							width: $header-submenu-width;
+							-webkit-transition-property: background;
+							transition-property: background;
+							-webkit-transition-duration: 0.3s;
+							transition-duration: 0.3s;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							text-align: left;
+              border-bottom: $burger-menu-background-color 3px solid;
+
+							&:hover ,
+							&:focus ,
+							&:active {
+								color: $submenu-item-hover-color;
+								background-color: $submenu-item-hover-background-color;
+							}
+
+						}
+
+
+					}
+				}
+			}
+
+		}
+
+	}
+}
+
+/*----------- Affix -----------*/
+header.site-header{
+  z-index: $header-z-index;
+
+	&.header-affix{
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: auto;
+		height: $header-affix-height;
+		border-bottom: 0;
+    background-color: $header-affix-background-color;
+		//box-shadow: 0px 1px 1px #AAA;
+
+		.header-info{
+			.header-site-info {
+        img{
+				height: $header-affix-height - 2;
+        }
+			}
+			#inv-nav-main-btn{
+				line-height: 27px;
+				//font-size: 14px;
+				padding-top: 10px;
+			}
+			@media screen and (min-width: $screen-sm-min){
+				ul#inv-menu{
+					li{
+						a{
+							line-height: $header-affix-height - 1;
+						}
+						ul{
+							top: $header-affix-height - 1;
+						}
+					}
+				}//ul#inv-menu
+			}//@media
+		}//.header-info
+	}//&.header-affix
+}//header.site-header

@@ -6,9 +6,13 @@ $args = array(
     'posts_per_page' => -1
 );
 
+
+
+
 $slides = new WP_Query( $args );
 
 if ( $slides->have_posts() ) :?>
+    <hr class="fadeAway"/>
     <div id="slider" class="flexslider">
         <ul class="slides">
 
@@ -19,11 +23,11 @@ if ( $slides->have_posts() ) :?>
                 <div class="flex-caption">
             				<h1><?php the_title();?></h1>
             				<?php the_content();
-
-                    if ( get_post_meta( get_the_id(), 'wptuts_slideurl', true) != '' ): ?>
-                        <a href="<?php echo esc_url( get_post_meta( get_the_id(), 'wptuts_slideurl', true) ); ?>" class="read-more">Read More!</a>
+                    $slides_data = get_post_meta($post->ID, 'slides_data', true);
+                    if ( $slides_data['slideUrl']): ?>
+                        <a href="<?php echo esc_url( $slides_data['slideUrl'] ); ?>" class="post-excerpt-btn">Read More!</a>
                     <?php else:?>
-            				<a href="<?php the_permalink(); ?>" class="read-more">Read More!</a>
+            				<a href="<?php the_permalink(); ?>" class="post-excerpt-btn">Read More!</a>
                     <?php endif;?>
 			           </div><!-- .flex-caption -->
                 </li>

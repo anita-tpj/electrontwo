@@ -1,7 +1,7 @@
-<article class="post <?php if(has_post_thumbnail()):?>has-thumbnail<?php endif; ?>">
+<article class="post page<?php if(has_post_thumbnail()):?>has-thumbnail<?php endif; ?>">
 <div class="post-thumbnail">
 
-    <?php the_post_thumbnail('home-page-section-image');?>
+    <?php the_post_thumbnail('big-thumbnail');?>
 
 </div><!-- post-thumbnail-->
 

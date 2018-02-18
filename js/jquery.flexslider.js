@@ -3,7 +3,8 @@
  * Copyright 2012 WooThemes
  * Contributing Author: Tyler Smith
  */
-;
+
+
 (function ($) {
 
   var focused = true;
@@ -1187,5 +1188,6 @@
         default: if (typeof options === "number") { $slider.flexAnimate(options, true); }
       }
     }
-  };
+  };  
+
 })(jQuery);

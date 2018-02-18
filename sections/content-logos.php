@@ -15,19 +15,18 @@ if ( $logos->have_posts() ) :?>
             <?php while ( $logos->have_posts() ) : $logos->the_post(); ?>
                 <li>
                 <?php // Check if there's a Slide URL given and if so let's a link to it
-                if ( get_post_meta( get_the_id(), 'elt_logourl', true) != '' ): ?>
-                    <a href="<?php echo esc_url( get_post_meta( get_the_id(), 'elt_logourl', true) ); ?>">
+
+                $logos_data = get_post_meta($post->ID, 'logos_data', true);
+                if ( $logos_data): ?>
+                    <a href="<?php echo esc_url( $logos_data['logoUrl']); ?>">
                 <?php endif;
 
-                // The Slide's Image
+                // The Logo's Image
                 echo the_post_thumbnail('logo-image');?>
 
-                <?php
-                // Close off the Slide's Link if there is one
-                if ( get_post_meta( get_the_id(), 'elt_logourl', true) != '' ): ?>
-                    </a>
+                <?php if ( $logos_data): ?>
+                </a>
                 <?php endif; ?>
-
                 </li>
             <?php endwhile; ?>
 

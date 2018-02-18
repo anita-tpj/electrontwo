@@ -18,11 +18,9 @@ endif;?>
 
 
 <?php
-if(!has_children() || $post->post_parent < 0):
-  if (is_active_sidebar('left-sidebar-1')):
+  if(!has_children() || $post->post_parent < 0):
     get_sidebar();
   endif;
-endif;
 
 get_footer();
 ?>

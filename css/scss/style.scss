@@ -2,7 +2,7 @@
 Theme Name: Electron Two
 Author: Anita Tapaji
 Author URI: https://tanita.webege.com
-Description: Electrontwo Seventeen brings your site to life with immersive featured images and subtle animations. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats. Our default theme for 2017 works great in many languages, for any abilities, and on any device.
+Description: Electrontwo brings your site to life with immersive featured images and subtle animations. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with custom post formats. Our theme works great in many languages, for any abilities, and on any device.
 Version: 1.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,8 @@ This theme, like WordPress, is licensed under the GPL.
 */
 @import "reset";
 @import "variables";
-@import 'mixins';        //mixins
+@import 'mixins';
+@import 'front/nav-elements';
 
 body{
   font-family: Arial, sans-serif;
@@ -31,13 +32,14 @@ h4 { font-size: 1em; }
 h5 { font-size: 0.8em; }
 h6 { font-size: 0.7em; }
 
+h1.styled-line,
 h2.styled-line,
 h3.styled-line{
   position: relative;
   text-transform: uppercase;
   text-align: center;
 }
-
+h1.styled-line::after,
 h2.styled-line::after,
 h3.styled-line::after{
   content: "";
@@ -48,20 +50,47 @@ h3.styled-line::after{
   left: 0;
   right: 0;
   margin: auto;
-  background-color: #006ec3;
+  background-color: $primary-color;
+}
+
+.page-headline,
+.post-headline{
+  margin-top: 40px;
+  border-bottom: 1px solid $light-grey;
+    h1{
+      display: inline-block;
+      margin: 0 0 -1px;
+      border-bottom: 2px solid $primary-color;
+    }
+
+}
+.page-headline{
+  margin-bottom: 30px;
+  h1{
+    text-transform: uppercase;
+  }
+  h2{
+    display: inline-block;
+    margin: 0 0 -1px;
+    border-bottom: 2px solid $primary-color;
+  }
 }
 
 p{
   line-height: 1.65em;
   padding: 10px 0;
 }
+hr{
+  margin: 0;
+}
 
 b, strong {
   font-weight: bold;
 }
+
 a:link,
 a:visited{
-  color: #006ec3;
+  color: $primary-color;
 }
 ul{
   padding: 10px;
@@ -72,17 +101,31 @@ img{
   max-width: 100%;
   height: auto;
 }
+
 /*Buttons*/
-a.read-more{
+a.post-excerpt-link,
+a.post-excerpt-btn,{
   display: inline-block;
-  padding: 10px 8px;
-  border: 1px solid #006ec3;
   text-decoration: none;
 }
+a.post-excerpt-btn{
+  padding: 10px 8px;
+  border: 1px solid $primary-color;
+}
+a.post-excerpt-link::after,
+a.post-excerpt-btn{
+  content: " \00BB";
+}
 
-/*General Layout - Mobile*/
-//Mobile
-div.container, div.container.full{
+hr.fadeAway {
+    height: 2px;
+    border: none;
+    @include horizontal-gradient(rgba(0, 110, 195, 1), rgba(255, 255, 204, 0.01))
+}
+/*----------------- General Layout -----------------*/
+
+//Mobile Layout
+div.container{
   display: grid;
   grid-template-areas: "header"
                        "content"
@@ -91,7 +134,7 @@ div.container, div.container.full{
 
   header.site-header{
     grid-area: header;
-    /*margin-bottom: 40px;*/
+    //margin-bottom: 40px;
   }
 
   footer.site-footer{
@@ -101,33 +144,82 @@ div.container, div.container.full{
   div.site-main{
     grid-area: content;
     padding: 0 10px;
+    min-height: 100vh;
   }
 
   aside.site-sidebar{
     grid-area: sidebar;
     font-size: 0.85em;
     line-height: 1.7;
-    margin-left: 50px;
+    margin-left: 10px;
+    margin-top: 24px;
     h4{
       font-weight: bold;
     }
-
   }
 }
 
-div.container.full{
+//Desktop Layout
+@media only screen and (min-width: $screen-md-min){
+  div.container{
+    grid-template-columns: 10% auto auto 10%;
+    /*justify-content: center;*/
+    aside.site-sidebar{
+      max-width: 250px;
+      margin-left: 50px;
+    }
+    div.site-main{
+      padding: 0 0;
+    }
+  }
 
-  article.post{
+  div.container:not(.front-page),
+  div.container:not(.full-page){
+    grid-template-areas: ". header header ."
+                         ". content sidebar ."
+                        "footer footer footer footer";
+  }
+
+  div.container.full-page{
+    grid-template-areas: ". header header ."
+                         ". content content ."
+                        "footer footer footer footer";
+  }
+
+  div.container.front-page{
+    grid-template-areas: ". header header ."
+                         "content content content content"
+                         "footer footer footer footer";
+    justify-content: center;
+  }
+}
+
+/*----------------- Content Area -----------------*/
+
+// Content Front Page Style for Mobile
+div.container.front-page{
+  header.site-header{
+    //margin-bottom: 0px;
+  }
+  hr.fadeAway{
+    margin-bottom: 0;
+  }
+  div.site-main{
+    padding: 0;
+  }
+  article.post.page{
     h2, h3{
       margin: 20px;
     }
     .post-thumbnail{
       margin: 0 auto;
+      order: 0;
     }
   }
 
   section.main-service{
     text-align: justify;
+    padding: 0 10px;
     nav.service-page-nav{
 
         ul{
@@ -139,7 +231,7 @@ div.container.full{
               text-align: center;
               margin-right:16px;
               font-weight: 900;
-              color: #006ec3;
+              color: $primary-color;
               content: "\f35a";
               font-family: 'Font Awesome 5 Free';
             }
@@ -147,9 +239,10 @@ div.container.full{
         }
       }
     }
+
     section.other-services{
       padding: 50px 50px;
-      background-color: #f5f6f8;
+      background-color: $light-grey;
       p{
         text-align: center;
       }
@@ -160,45 +253,36 @@ div.container.full{
           background-color: #fff;
           article.post.has-thumbnail{
             margin: 20px 0;
+            p{
+              padding: 0 10px 20px 10px;
+            }
             .post-thumbnail{
               padding-left: 20px;
               padding-top: 20px;
+            }
+            .post-btn{
+              text-align: center;
             }
           }
         }
       }
     }
 
-    section.about-us{
+    section.about-us,
+    section.reference{
+      padding: 0 10px;
       text-align: center;
     }
 }
 
-//Desktop
-@media only screen and (min-width: 500px){
-  div.container{
-    grid-template-columns: 10% auto auto 10%;
-    justify-content: center;
-    div.site-main{
-      padding: 0 0;
+// Content Front Page Style for Tablet
+@media only screen and (min-width: $screen-sm-min){
+  div.container:not(.front-page){
+    hr.fadeAway{
+      margin-bottom: 50px;
     }
   }
-
-
-
-  div.container:not(.full){
-    grid-template-areas: ". header header ."
-                         ". content sidebar ."
-                        "footer footer footer footer";
-                      }
-
-
-  //Home Page - Desktop
-  div.container.full{
-        justify-content: center;
-        grid-template-areas: ". header header ."
-                             "content content content content"
-                             "footer footer footer footer";
+  div.container.front-page{
      div.site-main{
        display: grid;
        grid-template-columns: 10% 80% 10%;
@@ -215,7 +299,7 @@ div.container.full{
          .service-links{
            display: flex;
            align-items: flex-end;
-           a.read-more{
+          a.post-excerpt-btn{
              margin-left: auto;
            }
          }
@@ -227,18 +311,20 @@ div.container.full{
 
        section.about-us{
          grid-column: 2 / 3;
+         width: 65%;
+         margin: 0 auto;
        }
 
        section.reference{
          grid-column: 2 / 3;
        }
-
      }
-    }
+  }
 }
 
-@media only screen and (min-width: 992px){
-  div.container.full{
+// Content Front Page Style for Desktop
+@media only screen and (min-width: $screen-md-min){
+  div.container.front-page{
     div.site-main{
       section.other-services{
         padding: 50px 0;
@@ -258,7 +344,7 @@ div.container.full{
             margin-top: 0;
             margin-bottom: 20px;
 
-            article.post.has-thumbnail{
+            article.post.page.has-thumbnail{
               display: flex;
               justify-content: center;
               flex-wrap: wrap;
@@ -267,7 +353,7 @@ div.container.full{
               margin: 0;
               p{
                 text-align: justify;
-                padding-bottom: 20px;
+                padding: 0 0 20px 0;
               }
               .post-content{
                 flex: 0 0 85%;
@@ -278,33 +364,30 @@ div.container.full{
               }
               .post-thumbnail{
                 flex: 0 1 auto;
-                padding-left: 0;
-                padding-top: 0;
+                padding: 0;
                 margin: 0;
-              }
-              .post-button {
-                text-align: center;
               }
             }
           }
         }
       }
-
-      section.about-us{
-        width: 65%;
-        margin: 0 auto;
-      }
     }
   }
 }
 
+//Content Post Styles
 
-/*Content Area*/
-/*Post Styles*/
+article.post{
+  margin-bottom: 40px;
 
-.post{
+  h3{
+    margin-bottom: 20px;
+  }
+  p{
+    margin-left: 0;
+  }
   p.post-info{
-    margin-top: 2px;
+    margin-top: -2px;
     font-size: 87%;
     color: #999;
     a{
@@ -314,42 +397,58 @@ div.container.full{
       }
     }
   }
-}
-
-article.post{
-  margin-bottom: 40px;
-  h3{
-    margin-bottom: 20px;
+  .post-content{
+    ul{
+      list-style-type: disc;
+      margin-left: 20px;
+      line-height: 1.5em;
+    }
   }
-  p{
-    margin-left: 0;
+  .post-thumbnail{
+    img{
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    }
   }
-
+  a.post-excerpt-link{
+    text-align: left;
+  }
 }
 
 article.post:not(:last-of-type){
   border-bottom: 2px dotted #ddd;
 }
 
-article.post.has-thumbnail{
-  display: flex;
-  flex-wrap: wrap;
+
+//Content Custom Post References Styles
+article.post.references{
   .post-content{
-    flex: 1 0 300px;
-  }
-  .post-thumbnail{
-    padding-bottom: 20px;
-    padding-right: 20px;
-    img{
-      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 30px;
+  ul.reference-summary{
+    flex: 1 1 0;
+    padding: 20px;
+    list-style-type: none;
+    font-size: 0.9em;
+    line-height: 1.5em;
+    order: 1;
     }
+  img{
+    flex: 0 1 380px;
+    max-height: 250px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    margin-right: 20px;
+    margin-top: 20px;
+    order: 2;
   }
-  .post-button {
-    text-align: center;
+  div{
+    flex: 1 1 0;
+    min-width: 320px;
+    order: 3;
+  }
   }
 }
-
-/*Custom Post Formats Style*/
+//Content Custom Post Formats Styles
 article.post.post-aside,
 article.post.post-link,
 article.post.post-gallery{
@@ -392,76 +491,236 @@ article.post-gallery{
   }
 }
 
-/*Page Layout*/
-
-/*Page Layout - Two Colunm Template*/
-article.post.page{
-  h2{
-    margin-bottom: 30px;
+//References Category Post Style
+.references-layout{
+  display: flex;
+  flex-wrap: wrap;
+}
+article.post.references{
+  /*background-color: $light-grey;*/
+  /*padding: 10px;*/
+  border: none;
+  flex: 1 1 350px;
+  padding-right: 10px;
+  a{
+    text-decoration: none;
+    color: #333;
   }
 }
-.column-container {
+.post-card{
+  /*background-color: #fff;*/
+  background-color: $light-grey;
   display: flex;
-  flex-flow: row wrap;
-  .column-title{
-    flex: 1 1 20%;
-    h2{
-      margin: 0;
-      padding: 15px 15px 0 0;
+  align-items: center;
+  border: 1px solid $primary-color;
+  .post-card-thumbnail{
+    flex: 0 0 0;
+    display: inline-block;
+    position: relative;
+    min-width: 180px;
+  }
+
+  .post-card-title{
+    flex: 1 1 0;
+    text-align: center;
+    padding: 10px;
+    font-size: 1em;
+    box-sizing: border-box;
+    h3{
+      margin-bottom: 0;
     }
   }
-  .column-content{
-    flex: 1 1 80%;
+  .post-card-thumbnail::before{
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 20px 20px 0;
+    border-color: transparent $light-grey transparent transparent;
+    position: absolute;
+    width: 90%;
+    top: 33%
   }
+
+
 }
 
-/*Page Layout - Info Template*/
+//References Category Widget Style
+.post-widget{
+  .post-headline{
+    border-bottom: 1px solid $light-grey;
+    margin: 50px 0 30px 0;
+      h2{
+        display: inline-block;
+        margin: 0 0 -1px;
+        border-bottom: 2px solid $primary-color;
+      }
+}
+  .post-card-thumbnail{
+    min-width: 80px;
+}
 
-.info-box{
-  width: 30%;
-  margin: 0 0 30px 30px;
-  padding: 20px;
-  float: right;
-  background-color: #eee;
-  h4{
-    margin-bottom: 6px;
+.post-card-thumbnail::before{
+      top: 25%;
+}
+.post-card-title{
+  h3{
+    font-size: 1rem;
+    margin-bottom: 0;
     font-weight: bold;
   }
-  p{
-    font-size: 85%;
+}
+
+}
+
+/*----------------- Page Layout -----------------*/
+article.post.page.has-thumbnail{
+  display: flex;
+  flex-wrap: wrap;
+  .page-headline,
+  .post-headline{
+    flex: 1 0 100%;
+  }
+  .post-content{
+    flex: 1 1 60%;
+  }
+  .post-thumbnail{
+    flex: 1 1 30%;
+    padding: 20px;
+    order: 2;
   }
 }
 
-/*Header*/
+article.post.page.has-thumbnail:nth-child(odd){
+  .post-thumbnail{
+    order: 0;
+  }
+}
+
+//Page Layout - Two Colunm Template info Template
+
+article.post.page.info{
+  display: flex;
+  .page-headline{
+    padding-top: 10px;
+    padding-right: 30px;
+  }
+  .disclaimer-info{
+    width: 30%;
+    margin: 20px 0 30px 30px;
+    padding: 20px;
+    float: right;
+    background-color: #eee;
+    h4{
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    p{
+      font-size: 85%;
+    }
+  }
+}
+
+//Page Layout - Contact Page Template
+//Google maps
+
+#map{
+  //height: 400px;
+  //width: 100%;
+  //border: 1px solid $secondary-color;
+}
+@media only screen and (max-width: $screen-sm-min){
+  #map{
+    height: 300px;
+  }
+}
+
+#locations{
+  display: flex;
+  justify-content: space-between;
+  ul{
+    margin: 20px 0;
+    padding: 20px 10px;
+    flex-basis:20%;
+    text-align: center;
+    font-size: 0.8em;
+    line-height: 2;
+    border: 1px solid $secondary-color;
+    background-color: $light-grey;
+    .ci-geolocation-lat,
+    .ci-geolocation-lng{
+      display: none;
+    }
+  }
+}
+@media only screen and (max-width: $screen-md-min){
+  #locations{
+    flex-wrap: wrap;
+    ul{
+      flex: 0 0 45%;
+    }
+  }
+}
+
+@media only screen and (max-width: 620px){
+  #locations{
+    flex-wrap: wrap;
+    ul{
+      flex: 1 0 90%;
+    }
+  }
+}
+
+
+/*----------------- Header -----------------*/
+
 header.site-header{
   /*border-bottom: 2px solid #bbb;*/
+  transition-property: height;
+  transition-duration: .5s;
+  transition-timing-function: ease;
+  //height: $header-height-sm;
   h1{
     margin-bottom: 0px;
   }
-  h5{
-    margin-top: 0px;
-    padding-bottom: 25px;
-  }
+  @media screen and (min-width: $screen-md-min){
+      height: $header-height;
+    }
   .header-info{
     display: flex;
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
     /*padding-bottom: 30px;*/
-    h5{
-      margin: 0;
-      padding: 0;
-    }
     .header-site-info{
-      flex: 0 0 auto;
-      padding: 0 20px 20px 0;
+      flex: 0 1 auto;
+      //padding: 0 20px 4px 0;
       margin-right: auto;
+      a img{
+       height: 82px;
+       transition-property: height;
+       transition-duration: .5s;
+       transition-timing-function: ease;
+       }
+      h5{
+        margin: 0 0 0 10px;
+        padding: 0;
+        color: lighten($dark-grey, 40%);
+      }
+       @media screen and (max-width: $screen-md-min){
+         a img{
+           height: $header-affix-height + 10;
+         }
+         h5{
+           display: none !important;
+         }
+       }
     }
     .header-site-search{
       flex: 0 0 auto;
       min-width: 210px;
       .btn.searchsubmit{
-        background-color: #006ec3;
+        background-color: $primary-color;
         color: #fff;
         padding: 5px 15px;
         vertical-align: top;
@@ -477,8 +736,25 @@ header.site-header{
  }
 }
 
+/*----------------- Navigation Menus-----------------*/
+//Header Navigation
+  //nav.css
+//Footer Navigation
+footer.site-footer{
+  .site-nav{
+    margin-top: 40px;
+    li{
+      margin-right: 10px;
+      padding-right: 10px;
+      border-right: 1px dotted #bbb;
+    }
+    li:last-child{
+      border-right: none;
+    }
+  }
+}
 
-/*Page Children Navigation Menu*/
+//Page Children Navigation Menu
 .page-children-nav{
   display: flex;
   align-items: center;
@@ -532,8 +808,8 @@ header.site-header{
     }
   }
 
+/*----------------- Footer -----------------*/
 
-/*Footer*/
 footer.site-footer{
   margin-top: 30px;
   border-top: 2px solid #bbb;
@@ -542,14 +818,13 @@ footer.site-footer{
 
   .footer-boxes{
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
     width: 80%;
+    justify-content: space-between;
     margin: 0 auto;
     .footer-box{
-      flex: 1 0 150px;
+      flex-basis: 0 0 20%;
       line-height: 2;
-      padding: 10px;
+      padding: 10px 0;
       font-size: 75%;
       h4{
         font-size: 130%;
@@ -563,10 +838,27 @@ footer.site-footer{
     }
   }
 
+  @media only screen and (max-width: 1200px){
+    .footer-boxes{
+      flex-wrap: wrap;
+      .footer-box{
+        flex: 0 0 40%;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 768px){
+    .footer-boxes{
+      flex-wrap: wrap;
+      .footer-box{
+        flex: 1 0 100%;
+      }
+    }
+  }
+
   .footer-info{
     width: 80%;
     display: flex;
-    flex-wrap: wrap;
     padding-top: 30px;
     margin: 0 auto;
     font-size: 80%;
@@ -574,21 +866,9 @@ footer.site-footer{
       margin-right: auto;
     }
   }
-
-  //Site footer Menu
-  .site-nav{
-    margin-top: 40px;
-    li{
-      margin-right: 10px;
-      padding-right: 10px;
-      border-right: 1px dotted #bbb;
-    }
-    li:last-child{
-      border-right: none;
-    }
-  }
 }
 
+/*----------------- Widgets -----------------*/
 .widget{
   margin-bottom: 2.5em;
 }
@@ -606,14 +886,128 @@ footer.site-footer{
 }
 
 .widget-title span::before{
-  content: "";;
+  content: "";
   position: absolute;
   width: 100%;
   top: -16px;
   left: 0;
-  border-top: 2px solid #006ec3;
+  border-top: 2px solid $primary-color;
 }
 
 
+li.cat-item.current-cat,
+li.menu-item.current-menu-item{
+  a{
+    &:link,
+    &:visited{
+      color: red;
+    }
+  }
+}
 
-/*Header Navigation*/
+.fa { display:inline; }
+
+/*----------------- Contac Form 7 Style -----------------*/
+.contact-form{
+  margin-top: 50px;
+}
+.wpcf7-text, .wpcf7-textarea, .wpcf7-captchar {
+  background-color: #eee !important;
+  border: none !important;
+  width: 40% !important;
+  -moz-border-radius: 0 !important;
+  -webkit-border-radius: 0 !important;
+  border-radius: 0 !important;
+  font-size: 14px;
+  color: #999 !important;
+  padding: 16px !important;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.wpcf7-submit {
+  color: #2EA3F2 !important;
+  margin: 8px auto 0;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding: 6px 20px;
+  line-height: 1.7em;
+  background: transparent;
+  border: 2px solid;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.wpcf7-submit:hover {
+  background-color: #eee;
+  border-color:#eee;
+  padding: 6px 20px !important;
+}
+
+
+/* Contact Form 7 Form Background And Border CSS
+-----------------------------------------------*/
+/*
+.wpcf7 {
+     background: $light-grey;
+     border: 1px solid #494949;
+     width: 500px;
+}
+
+/* Contact Form 7 Input Fields CSS
+---------------------------------*/
+/*
+.wpcf7 input[type="text"],
+.wpcf7 input[type="email"],
+.wpcf7 input[type="tel"],
+textarea
+{
+    font-size: 16px;
+    background-color: #fff;
+    border: none;
+    color: #000;
+    width: 95%;
+    padding: 2%;
+}
+
+/* Contact Form 7 Submit Button
+-------------------------------*/
+/*
+.wpcf7 input[type="submit"] {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    background: #9ED933;
+    padding: 15px 25px 15px 25px;
+    border: none;
+    border-radius: 5px;
+    width: auto;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.wpcf7 input:hover[type="submit"] {
+    background: #494949;
+    transition: all 0.4s ease 0s;
+}
+
+.wpcf7 input:active[type="submit"] {
+    background: #000000;
+}
+
+/* Contact Form 7 Margins
+-------------------------*/
+/*
+.wpcf7 form {
+     margin-left: 25px;
+     margin-right: 25px;
+     margin-top: 25px;
+}
+*/

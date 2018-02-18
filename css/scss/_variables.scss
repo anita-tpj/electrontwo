@@ -1,18 +1,130 @@
 /*
-@package electronone
+@package electrontwo
 */
-/*------------- Variables ------------*/
+/*------------- Theme Color Variables ------------*/
 $body-font: 'Raleway', 'HelveticaNeue', 'Helvetica', 'Arial', 'Verdana', sans-serif;
 $icon-font: 'eo-icon';
-$primary-color: #000000;
+$primary-color: #006EC3;
+$primary-color-rgb: rgb(0, 110, 195);
+$secondary-color: #DDDDDD;
 $dark-grey: #333333;
-$grey: #656565;
-$light-grey: #898989;
-$lighter-grey: #F1F1F1;
-$orange: #FF9D1D;
-$orange-hover: #F56B08;
+$grey: #898989;
+$light-grey: #F5F6F8;
+$site-main-width: 80%;
+
+//Hamburger Menu Variables
+$heading-font: 'Montserrat', 'Open Sans', Helvetica, Arial, sans-serif;
+$heading-font-weight: 400;
+
+$header-z-index: 20;
+$header-height: 112px;
+$header-height-sm: 85px;
+$logo-margin: 4px;
+$header-affix-height: 50px;
+$header-affix-background-color: rgba(255, 255, 255, 0.9);;
+$header-submenu-width: 260px;
+$header-submenu-cols: 3;
+$burger-menu-width: 260px;
+
+$menu-color: #FFF;
+$menu-background-color: transparent;
+$burger-menu-color: $dark-grey;
+$burger-menu-background-color: $light-grey;
+
+$hamburger-background-color: $primary-color;
+$hamburger-text-color: #FFF;
+$header-affix-height: 50px;
+
+$menu-item-font-size: 14px;
+$menu-item-line-height: $header-height;
+$menu-item-color: $dark-grey;
+$menu-item-background-color: $menu-background-color;
+$menu-item-hover-color: lighten($dark-grey, 40%);
+$menu-item-hover-background-color: $menu-color;
+
+$submenu-item-hover-color: lighten($dark-grey, 20%);
+$submenu-item-hover-background-color: $light-grey;
+
+$burger-menu-item-font-size: 18px;
+$burger-menu-item-line-height: 40px;
+$burger-menu-item-color: $burger-menu-color;
+$burger-menu-item-background-color: $burger-menu-background-color;
+$burger-menu-item-hover-color: $burger-menu-item-color;
+$burger-menu-item-hover-background-color: lighten($burger-menu-item-background-color , 80%);
+
+$burger-submenu-item-font-size: 16px;
+$burger-submenu-item-line-height: 40px;
+$burger-submenu-item-color: $burger-menu-color;
+$burger-submenu-item-background-color: lighten($burger-menu-background-color, 1%);
+$burger-submenu-item-hover-color: $burger-submenu-item-color;
+$burger-submenu-item-hover-background-color: lighten($burger-submenu-item-background-color , 80%);
+
+$menu-z-index: 100;
+
+/*!
+ * Hamburgers
+ * @description Tasty CSS-animated hamburgers
+ * @author Jonathan Suh @jonsuh
+ * @site https://jonsuh.com/hamburgers
+ * @link https://github.com/jonsuh/hamburgers
+ */
+
+// Settings
+// ==================================================
+$hamburger-padding-x                       : 15px !default;
+$hamburger-padding-y                       : 15px !default;
+$hamburger-layer-width                     : 40px !default;
+$hamburger-layer-height                    : 4px !default;
+$hamburger-layer-spacing                   : 6px !default;
+$hamburger-layer-color                     : #000 !default;
+$hamburger-layer-border-radius             : 4px !default;
+$hamburger-hover-opacity                   : 1 !default;
+$hamburger-hover-transition-duration       : 0.25s !default;
+$hamburger-hover-transition-timing-function: linear !default;
+
+// To use CSS filters as the hover effect instead of opacity,
+// set $hamburger-hover-use-filter as true and
+// change the value of $hamburger-hover-filter accordingly.
+$hamburger-hover-use-filter: true !default;
+$hamburger-hover-filter    : opacity(50%) !default;
+
+/* From bootstrap */
+$screen-xs-min: 500px;
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
 
 
-//Media Queries
-
-$xs: 767px;
+$hamburger-types: (
+  3dx,
+  3dx-r,
+  3dy,
+  3dy-r,
+  3dxy,
+  3dxy-r,
+  arrow,
+  arrow-r,
+  arrowalt,
+  arrowalt-r,
+  arrowturn,
+  arrowturn-r,
+  boring,
+  collapse,
+  collapse-r,
+  elastic,
+  elastic-r,
+  emphatic,
+  emphatic-r,
+  minus,
+  slider,
+  slider-r,
+  spring,
+  spring-r,
+  stand,
+  stand-r,
+  spin,
+  spin-r,
+  squeeze,
+  vortex,
+  vortex-r
+) !default;

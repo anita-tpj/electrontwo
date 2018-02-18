@@ -1,7 +1,7 @@
-<article class="post <?php if(has_post_thumbnail()):?>has-thumbnail<?php endif; ?>">
+<article class="post page <?php if(has_post_thumbnail()):?>has-thumbnail<?php endif; ?>">
 <div class="post-thumbnail">
 
-    <?php the_post_thumbnail('home-page-section-image');?>
+    <?php the_post_thumbnail('big-thumbnail');?>
 
 </div><!-- post-thumbnail-->
 
@@ -21,7 +21,7 @@
           <?php wp_list_pages($args); ?>
         </ul>
     </nav>
-    <a class="read-more" href="<?php echo get_permalink(); ?>"><?php echo sprintf ( __('Read More', 'electrontwo'));?></a>
+    <a class="post-excerpt-btn" href="<?php echo get_permalink(); ?>"><?php echo sprintf ( __('Read More', 'electrontwo'));?></a>
 
     </div><!-- service-links-->
 
